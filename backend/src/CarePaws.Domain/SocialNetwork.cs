@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CarePaws.Domain
 {
-    internal class SocialNetwork
+    public class SocialNetwork
     {
+        public string Name { get; set; } = null!;
+        public string Url { get; set; } = null!;
     }
 }

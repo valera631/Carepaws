@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CarePaws.Domain
 {
-    internal class PaymentDetails
+    public class PaymentDetails
     {
+        public string Title { get; set; } = null!;
+        public string Description { get; set; } = null!;
     }
 }
