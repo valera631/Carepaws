@@ -27,6 +27,8 @@ namespace CarePaws.Domain
         public HelpStatus Status { get; set; } 
         public List<PaymentDetails> PaymentDetails { get; set; } = new List<PaymentDetails>(); 
         public DateTime CreatedDate { get; set; } 
+        
+        public List<PetPhoto> Photos { get; set;} = new List<PetPhoto>();
     }
     public enum HelpStatus
     {
