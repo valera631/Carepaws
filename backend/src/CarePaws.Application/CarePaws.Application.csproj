@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CarePaws.Domain\CarePaws.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
