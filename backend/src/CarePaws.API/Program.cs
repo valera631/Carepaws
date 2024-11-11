@@ -1,10 +1,6 @@
-using CarePaws.Application.Services;
-using CarePaws.Domain.Repositories;
-using CarePaws.Domain.Services;
+using CarePaws.Application.Extensions;
 using CarePaws.Infrastructure;
-using CarePaws.Infrastructure.Repositories;
-using CarePaws.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
+using CarePaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,12 +15,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
            options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE"))
                  .UseSnakeCaseNamingConvention());
-                 
 
-// Add services
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-builder.Services.AddScoped<VolunteerRegistrationService>();
+
+// Регистрация сервисов через методы расширения
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
 
 
 var app = builder.Build();

@@ -32,7 +32,9 @@ namespace CarePaws.Domain.Entities
             string passwordHash,
             string description,
             int yearsOfExperience,
-            string phoneNumber)
+            string phoneNumber,
+            List<SocialNetwork> socialNetworks,
+            List<PaymentDetails> paymentDetails)
         {
             var volunteer = new Volunteer
             {
@@ -42,7 +44,9 @@ namespace CarePaws.Domain.Entities
                 PasswordHash = passwordHash,
                 Description = description,
                 YearsOfExperience = yearsOfExperience,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                SocialNetworks = socialNetworks,  
+                PaymentDetails = paymentDetails
             };
 
             return Result<Volunteer>.Success(volunteer);

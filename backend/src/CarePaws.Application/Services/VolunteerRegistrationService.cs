@@ -16,24 +16,27 @@ namespace CarePaws.Application.Services
     {
         private readonly IVolunteerRepository _volunteerRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IUnitOfWork _unitOfWork;
         public VolunteerRegistrationService(
             IVolunteerRepository volunteerRepository,
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IUnitOfWork unitOfWork)
         {
             _volunteerRepository = volunteerRepository;
             _passwordHasher = passwordHasher;
+            _unitOfWork = unitOfWork;
         }
         public async Task<Result<Volunteer>> RegisterVolunteerAsync(CreateVolunteerDto dto)
         {
+            if (dto.Password != dto.ConfirmPassword)
+            {
+                return Result<Volunteer>.Failure("Passwords do not match");
+            }
+
             var existingVolunteer = await _volunteerRepository.GetByEmailAsync(dto.Email);
             if (existingVolunteer != null)
             {
                 return Result<Volunteer>.Failure("Email already exists");
-            }
-
-            if (dto.Password != dto.ConfirmPassword)
-            {
-                return Result<Volunteer>.Failure("Passwords do not match");
             }
 
             string passwordHash = _passwordHasher.HashPassword(dto.Password);
@@ -44,7 +47,17 @@ namespace CarePaws.Application.Services
                 passwordHash,
                 dto.Description,
                 dto.YearsOfExperience,
-                dto.PhoneNumber
+                dto.PhoneNumber,
+                dto.SocialNetworks.Select(network => new SocialNetwork
+                {
+                    Name = network.Name,
+                    Url = network.Url
+                }).ToList(),   // Преобразуем SocialNetworkDto в SocialNetwork
+                dto.PaymentDetails.Select(payment => new PaymentDetails
+                {
+                    Title = payment.Title,
+                    Description = payment.Description
+                }).ToList()
             );
 
             if (!volunteerResult.IsSuccess)
@@ -54,29 +67,10 @@ namespace CarePaws.Application.Services
 
             var volunteer = volunteerResult.Value;
 
-            foreach (var network in dto.SocialNetworks)
-            {
-                volunteer.SocialNetworks.Add(new SocialNetwork
-                {
-                    Name = network.Name,
-                    Url = network.Url
-                });
-            }
-
-            foreach (var payment in dto.PaymentDetails)
-            {
-                volunteer.PaymentDetails.Add(new PaymentDetails
-                {
-                    Title = payment.Title,
-                    Description = payment.Description
-                });
-            }
-
             await _volunteerRepository.AddAsync(volunteer);
-            await _volunteerRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return Result<Volunteer>.Success(volunteer);
         }
-
     }
 }
