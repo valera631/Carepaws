@@ -24,12 +24,7 @@ namespace CarePaws.API.Controllers
             if (!result.IsSuccess)
                 return BadRequest(new { error = result.Error });
 
-            return Ok(new
-            {
-                id = result.Value.Id,
-                fullName = result.Value.FullName,
-                email = result.Value.Email
-            });
+            return Ok(result.Value);
         }
     }
 

@@ -18,12 +18,9 @@ namespace CarePaws.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Volunteer?> GetByEmailAsync(string email)
+        public async Task<bool> EmailExistsAsync(string email)
         {
-            return await _context.Volunteers
-                .Include(v => v.SocialNetworks)
-                .Include(v => v.PaymentDetails)
-                .FirstOrDefaultAsync(v => v.Email == email);
+            return await _context.Volunteers.AnyAsync(v => v.Email == email);
         }
 
         public async Task<Volunteer?> GetByIdAsync(Guid id)

@@ -26,17 +26,19 @@ namespace CarePaws.Application.Services
             _passwordHasher = passwordHasher;
             _unitOfWork = unitOfWork;
         }
-        public async Task<Result<Volunteer>> RegisterVolunteerAsync(CreateVolunteerDto dto)
+        public async Task<Result<VolunteerResponseDto>> RegisterVolunteerAsync(CreateVolunteerDto dto)
         {
+            // Проверка на совпадение паролей
             if (dto.Password != dto.ConfirmPassword)
             {
-                return Result<Volunteer>.Failure("Passwords do not match");
+                return Result<VolunteerResponseDto>.Failure("Passwords do not match");
             }
 
-            var existingVolunteer = await _volunteerRepository.GetByEmailAsync(dto.Email);
-            if (existingVolunteer != null)
+            // Проверка на существование email
+            var emailExists = await _volunteerRepository.EmailExistsAsync(dto.Email);
+            if (emailExists)
             {
-                return Result<Volunteer>.Failure("Email already exists");
+                return Result<VolunteerResponseDto>.Failure("Email already exists");
             }
 
             string passwordHash = _passwordHasher.HashPassword(dto.Password);
@@ -62,7 +64,7 @@ namespace CarePaws.Application.Services
 
             if (!volunteerResult.IsSuccess)
             {
-                return Result<Volunteer>.Failure(volunteerResult.Error);
+                return Result<VolunteerResponseDto>.Failure(volunteerResult.Error);
             }
 
             var volunteer = volunteerResult.Value;
@@ -70,7 +72,28 @@ namespace CarePaws.Application.Services
             await _volunteerRepository.AddAsync(volunteer);
             await _unitOfWork.SaveChangesAsync();
 
-            return Result<Volunteer>.Success(volunteer);
+            var responseDto = new VolunteerResponseDto
+            {
+                Id = volunteer.Id,
+                FullName = volunteer.FullName,
+                Email = volunteer.Email,
+                Description = volunteer.Description,
+                YearsOfExperience = volunteer.YearsOfExperience,
+                PhoneNumber = volunteer.PhoneNumber,
+                SocialNetworks = volunteer.SocialNetworks.Select(s => new VolunteerResponseDto.SocialNetworkDto
+                {
+                    Name = s.Name,
+                    Url = s.Url
+                }).ToList(),
+                PaymentDetails = volunteer.PaymentDetails.Select(p => new VolunteerResponseDto.PaymentDetailsDto
+                {
+                    Title = p.Title,
+                    Description = p.Description
+                }).ToList()
+            };
+
+            return Result<VolunteerResponseDto>.Success(responseDto);
         }
     }
 }
+

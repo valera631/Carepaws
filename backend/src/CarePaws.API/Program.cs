@@ -12,14 +12,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE"))
-                 .UseSnakeCaseNamingConvention());
 
 
 // Регистрация сервисов через методы расширения
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 
 var app = builder.Build();

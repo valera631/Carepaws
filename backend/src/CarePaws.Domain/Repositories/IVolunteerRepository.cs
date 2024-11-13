@@ -9,9 +9,8 @@ namespace CarePaws.Domain.Repositories
 {
     public interface IVolunteerRepository
     {
-        Task<Volunteer?> GetByEmailAsync(string email);
+        Task<bool> EmailExistsAsync(string email);
         Task<Volunteer?> GetByIdAsync(Guid id);
         Task AddAsync(Volunteer volunteer);
-        Task SaveChangesAsync();
     }
 }
