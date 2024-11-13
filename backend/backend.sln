@@ -3,24 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarePaws.API", "src\CarePaws.API\CarePaws.API.csproj", "{74322C64-35AA-402B-B962-8B70257C52D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarePaws.API", "src\CarePaws.API\CarePaws.API.csproj", "{74322C64-35AA-402B-B962-8B70257C52D6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CEFB8415-B4A5-46AB-BFC2-CF9CA633539A} = {CEFB8415-B4A5-46AB-BFC2-CF9CA633539A}
 		{E8CAD4A0-7ADC-4B71-91C8-5FED67E4247B} = {E8CAD4A0-7ADC-4B71-91C8-5FED67E4247B}
 		{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA} = {FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarePaws.Infrastructure", "src\CarePaws.Infrastructure\CarePaws.Infrastructure.csproj", "{E8CAD4A0-7ADC-4B71-91C8-5FED67E4247B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarePaws.Infrastructure", "src\CarePaws.Infrastructure\CarePaws.Infrastructure.csproj", "{E8CAD4A0-7ADC-4B71-91C8-5FED67E4247B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA} = {FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarePaws.Domain", "src\CarePaws.Domain\CarePaws.Domain.csproj", "{CEFB8415-B4A5-46AB-BFC2-CF9CA633539A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarePaws.Domain", "src\CarePaws.Domain\CarePaws.Domain.csproj", "{CEFB8415-B4A5-46AB-BFC2-CF9CA633539A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarePaws.Application", "src\CarePaws.Application\CarePaws.Application.csproj", "{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarePaws.Application", "src\CarePaws.Application\CarePaws.Application.csproj", "{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CEFB8415-B4A5-46AB-BFC2-CF9CA633539A} = {CEFB8415-B4A5-46AB-BFC2-CF9CA633539A}
 	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{15C7BF87-34EC-4138-A91A-D1858E9BDE25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB9B263E-D7F9-40B1-9867-FAEBAC4A8ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C7BF87-34EC-4138-A91A-D1858E9BDE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C7BF87-34EC-4138-A91A-D1858E9BDE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C7BF87-34EC-4138-A91A-D1858E9BDE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C7BF87-34EC-4138-A91A-D1858E9BDE25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
