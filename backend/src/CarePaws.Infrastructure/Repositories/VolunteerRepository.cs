@@ -36,9 +36,5 @@ namespace CarePaws.Infrastructure.Repositories
             await _context.Volunteers.AddAsync(volunteer);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }
