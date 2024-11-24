@@ -10,6 +10,7 @@ namespace CarePaws.Application.Extensions
         {
             // Регистрация сервисов уровня Application
             services.AddScoped<VolunteerRegistrationService>();
+            services.AddScoped<VolunteerLoginService>();
 
             return services;
         }

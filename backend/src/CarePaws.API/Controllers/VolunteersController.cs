@@ -10,16 +10,31 @@ namespace CarePaws.API.Controllers
     public class VolunteersController : Controller
     {
         private readonly VolunteerRegistrationService _registrationService;
+        private readonly VolunteerLoginService _loginService;
 
-        public VolunteersController(VolunteerRegistrationService registrationService)
+        public VolunteersController(VolunteerRegistrationService registrationService, VolunteerLoginService loginService)
         {
             _registrationService = registrationService;
+            _loginService = loginService;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateVolunteerDto dto)
         {
             var result = await _registrationService.RegisterVolunteerAsync(dto);
+
+            if (!result.IsSuccess)
+                return BadRequest(new { error = result.Error });
+
+            return Ok(result.Value);
+        }
+
+
+       [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var result = await _loginService.LoginVolunteerAsync(dto);
+
 
             if (!result.IsSuccess)
                 return BadRequest(new { error = result.Error });

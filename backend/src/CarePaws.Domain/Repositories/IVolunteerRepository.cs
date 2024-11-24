@@ -11,6 +11,7 @@ namespace CarePaws.Domain.Repositories
     {
         Task<bool> EmailExistsAsync(string email);
         Task<Volunteer?> GetByIdAsync(Guid id);
+        Task<Volunteer?> GetByEmailAsync(string email);
         Task AddAsync(Volunteer volunteer);
     }
 }
