@@ -7,15 +7,11 @@ using System.Collections.Generic;
 
 namespace CarePaws.Infrastructure
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
         private readonly IConfiguration _configuration;
         private const string DATABASE = "Database";
 
-        public ApplicationDbContext(IConfiguration configuration) : base()
-        {
-            _configuration = configuration;
-        }
 
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         public DbSet<SocialNetwork> SocialNetworks => Set<SocialNetwork>();

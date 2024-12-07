@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarePaws.Application\CarePaws.Application.csproj" />
+	  <ProjectReference Include="..\CarePaws.Application\CarePaws.Application.csproj" />
     <ProjectReference Include="..\CarePaws.Infrastructure\CarePaws.Infrastructure.csproj" />
   </ItemGroup>
 

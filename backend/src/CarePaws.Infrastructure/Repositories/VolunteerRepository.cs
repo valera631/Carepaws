@@ -22,7 +22,11 @@ namespace CarePaws.Infrastructure.Repositories
         {
             return await _context.Volunteers.AnyAsync(v => v.Email == email);
         }
-
+        public async Task<Volunteer?> GetByEmailAsync(string email)
+        {
+              return await _context.Volunteers
+            .FirstOrDefaultAsync(v => v.Email == email);
+        }
         public async Task<Volunteer?> GetByIdAsync(Guid id)
         {
             return await _context.Volunteers

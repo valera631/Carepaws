@@ -1,14 +1,10 @@
 ﻿using CarePaws.Domain.Services;
 using CarePaws.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CarePaws.Application.DTOs;
 using CarePaws.Domain.Common;
 using CarePaws.Domain.Entities;
 using CarePaws.Domain.ValueObjects;
+
 
 namespace CarePaws.Application.Services
 {
