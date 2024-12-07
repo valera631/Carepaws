@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using CarePaws.Domain.Common;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarePaws.Domain.Services
+namespace CarePaws.Application.Services
 {
     public class JwtService
     {
@@ -15,12 +17,14 @@ namespace CarePaws.Domain.Services
         private readonly string _issuer;
         private readonly string _audience;
 
-        public JwtService(string secretKey, string issuer, string audience)
+        public JwtService(IOptions<JwtSettings> jwtOptions)
         {
-            _secretKey = secretKey;
-            _issuer = issuer;
-            _audience = audience;
+            var settings = jwtOptions.Value;
+            _secretKey = settings.SecretKey;
+            _issuer = settings.Issuer;
+            _audience = settings.Audience;
         }
+
 
         public string GenerateToken(Guid userId, string email)
         {

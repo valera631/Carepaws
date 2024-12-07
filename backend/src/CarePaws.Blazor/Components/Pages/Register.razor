@@ -1,0 +1,134 @@
+﻿@page "/register"
+@using CarePaws.Model
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Регистрация волонтёра</h3>
+
+<EditForm Model="Volunteer" OnValidSubmit="HandleSubmit" FormName="register">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <!-- Поле ФИО -->
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Volunteer.FullName" class="form-control" placeholder="ФИО" aria-required="true" />
+        <label for="fullName">ФИО</label>
+        <ValidationMessage For="() => Volunteer.FullName" class="text-danger" />
+    </div>
+
+    <!-- Поле Email -->
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Volunteer.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+        <label for="email">Email</label>
+        <ValidationMessage For="() => Volunteer.Email" class="text-danger" />
+    </div>
+
+    <!-- Поле Пароль -->
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Volunteer.Password" type="password" class="form-control" placeholder="Пароль" aria-required="true" />
+        <label for="password">Пароль</label>
+        <ValidationMessage For="() => Volunteer.Password" class="text-danger" />
+    </div>
+
+    <!-- Поле Подтверждение пароля -->
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Volunteer.ConfirmPassword" type="password" class="form-control" placeholder="Подтверждение пароля" aria-required="true" />
+        <label for="confirmPassword">Подтверждение пароля</label>
+        <ValidationMessage For="() => Volunteer.ConfirmPassword" class="text-danger" />
+    </div>
+
+    <!-- Поле Описание -->
+    <div class="form-floating mb-3">
+        <InputTextArea @bind-Value="Volunteer.Description" class="form-control" placeholder="Описание" />
+        <label for="description">Описание</label>
+        <ValidationMessage For="() => Volunteer.Description" class="text-danger" />
+    </div>
+
+    <!-- Поле Телефон -->
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Volunteer.PhoneNumber" class="form-control" placeholder="Телефон" />
+        <label for="phoneNumber">Телефон</label>
+        <ValidationMessage For="() => Volunteer.PhoneNumber" class="text-danger" />
+    </div>
+
+    <!-- Социальные сети -->
+    <h4>Социальные сети</h4>
+    @foreach (var social in Volunteer.SocialNetworks)
+    {
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="social.Name" class="form-control" placeholder="Название соцсети" />
+            <label for="socialNetworkName">Название соцсети</label>
+            <ValidationMessage For="() => social.Name" class="text-danger" />
+
+            <InputText @bind-Value="social.Url" class="form-control" placeholder="URL соцсети" />
+            <label for="socialNetworkUrl">URL соцсети</label>
+            <ValidationMessage For="() => social.Url" class="text-danger" />
+        </div>
+    }
+
+    <!-- Платежные данные -->
+    <h4>Платёжные данные</h4>
+    @foreach (var payment in Volunteer.PaymentDetails)
+    {
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="payment.Title" class="form-control" placeholder="Заголовок" />
+            <label for="paymentTitle">Заголовок</label>
+            <ValidationMessage For="() => payment.Title" class="text-danger" />
+
+            <InputText @bind-Value="payment.Description" class="form-control" placeholder="Описание" />
+            <label for="paymentDescription">Описание</label>
+            <ValidationMessage For="() => payment.Description" class="text-danger" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <p style="color: red; text-align: center;">@ErrorMessage</p>
+}
+
+@code {
+    public CreateVolunteerDto Volunteer = new CreateVolunteerDto
+        {
+            SocialNetworks = new List<SocialNetworkDto>
+    {
+        new SocialNetworkDto() // Empty social network item
+    },
+            PaymentDetails = new List<PaymentDetailsDto>
+    {
+        new PaymentDetailsDto() // Empty payment details item
+    }
+        };
+
+    public string? ErrorMessage;
+
+    public async Task HandleSubmit()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("/api/volunteers/register", Volunteer);
+            if (response.IsSuccessStatusCode)
+            {
+                Volunteer = new CreateVolunteerDto(); // очищаем форму
+                ErrorMessage = null;
+                NavigationManager.NavigateTo("/"); // переходим на главную страницу
+            }
+            else
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                ErrorMessage = errorResponse?.Error ?? "Произошла ошибка!";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+    }
+
+    private class ErrorResponse
+    {
+        public string Error { get; set; }
+    }
+}

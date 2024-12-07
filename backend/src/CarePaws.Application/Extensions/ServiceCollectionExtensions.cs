@@ -1,5 +1,7 @@
 ﻿using CarePaws.Application.Services;
+using CarePaws.Domain.Common;
 using CarePaws.Domain.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarePaws.Application.Extensions
@@ -8,9 +10,13 @@ namespace CarePaws.Application.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            // Регистрация сервисов уровня Application
+        
+           
+
+            // Регистрация других сервисов
             services.AddScoped<VolunteerRegistrationService>();
             services.AddScoped<VolunteerLoginService>();
+            services.AddScoped<JwtService>();
 
             return services;
         }

@@ -1,4 +1,6 @@
 using CarePaws.Application.Extensions;
+using CarePaws.Application.Services;
+using CarePaws.Domain.Common;
 using CarePaws.Domain.Services;
 using CarePaws.Infrastructure;
 using CarePaws.Infrastructure.Extensions;
@@ -27,18 +29,9 @@ builder.Services.AddSwaggerGen();
 
 
 
-// Регистрация сервисов через методы расширения
-builder.Services.AddSingleton<JwtService>(provider =>
-{
-    var configuration = provider.GetRequiredService<IConfiguration>();
-    var jwtSettings = configuration.GetSection("Jwt");
-    return new JwtService(
-        jwtSettings["SecretKey"],
-        jwtSettings["Issuer"],
-        jwtSettings["Audience"]
-    );
-});
 
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 

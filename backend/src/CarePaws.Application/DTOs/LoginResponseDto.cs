@@ -10,7 +10,6 @@ namespace CarePaws.Application.DTOs
     {
         public string Token { get; set; }
         public Guid VolunteerId { get; set; }
-
         public string FullName {get; set;}
     }
 }
