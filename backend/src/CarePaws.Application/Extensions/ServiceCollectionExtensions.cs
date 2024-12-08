@@ -16,6 +16,7 @@ namespace CarePaws.Application.Extensions
             // Регистрация других сервисов
             services.AddScoped<VolunteerRegistrationService>();
             services.AddScoped<VolunteerLoginService>();
+            services.AddScoped<VolunteerProfileService>();
             services.AddScoped<JwtService>();
 
             return services;
